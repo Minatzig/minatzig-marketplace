@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "minatzig": {
+      "type": "http",
+      "url": "https://minatzig-server-dev.onrender.com/mcp"
+    }
+  }
+}

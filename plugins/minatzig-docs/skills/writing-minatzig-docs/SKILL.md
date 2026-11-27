@@ -23,7 +23,7 @@ Minatzig document:
 - [ ] 4. Check for existing documents
 - [ ] 5. Write the document(s)
 - [ ] 6. Check for sensitive data
-- [ ] 7. Build the file and run the check script
+- [ ] 7. Build the file and check it
 - [ ] 8. Show the summary and get a yes
 - [ ] 9. Upload and report the result
 ```
@@ -37,7 +37,7 @@ Call `get_authoring_guide` and `whoami` at the start of every run. The guide hol
 - `propose`: the document waits for a reviewer at the company. Tell the person this before uploading.
 - `none`: you cannot upload for that audience. You can still write the document so the person can hand it to someone who has access.
 
-If the MCP tools are missing, tell the person to connect the Minatzig MCP and sign in to Minatzig. You can still write the document without them, but you cannot upload it.
+If the MCP tools are missing, tell the person to run `/mcp`, choose the Minatzig server and sign in. You can still write the document without them, but you cannot upload it.
 
 ### 2. Understand the material and settle the audience
 
@@ -82,19 +82,20 @@ Before building the file, scan the text and describe every image you include. Th
 
 Explain it accurately: the server also checks every upload, and any finding holds the document for review even when the person can publish. Cleaning it now saves a review round. Nothing is rejected automatically.
 
-### 7. Build the file and run the check script
+### 7. Build the file and check it
 
 - Without images: a single `.md` file.
 - With images: a `.zip` with exactly one `.md` at the root of the zip plus an `images/` folder. Images are referenced as `![short description](images/name.png)` at the exact place they belong. Images are never sent separately, and images referenced from a loose `.md` are not processed.
 - File names: lowercase, no spaces, no accents or ñ, words separated by hyphens. The `.md` and the `.zip` share a name that includes the product and the version, for example `facturacion-preguntas-frecuentes-v3-0.zip`.
 
-Build the zip with Python's `zipfile` module or `zip -r` run from inside the bundle folder, so the `.md` ends up at the root. Then run the check, passing the limits from `get_authoring_guide`:
+Build the zip with Python's `zipfile` module or `zip -r` run from inside the bundle folder, so the `.md` ends up at the root. Then check the file against the values from `get_authoring_guide`:
+- The file is under the maximum size.
+- A zip holds exactly one `.md`, at its root.
+- Every image the Markdown references exists in the zip at that relative path and has an accepted type.
+- No image file in the zip is left unreferenced.
+- The document has exactly one `# H1`.
 
-```bash
-python3 ${CLAUDE_SKILL_DIR}/scripts/check_bundle.py <file.md or file.zip> --max-bytes <max size from the guide>
-```
-
-Fix every `ERROR` and rerun the check until it passes. Pass `WARN` lines on to the person.
+List the zip's contents to check, and fix any problem before going on.
 
 ### 8. Show the summary and get a yes
 
@@ -110,7 +111,7 @@ After upload:    goes live if the check is clean | waits for review
 Folder:          <path or none>
 Replaces:        <title of superseded document or none>
 Test questions:  <3 to 5 questions>
-Warnings:        <sensitive data or check-script warnings, or none>
+Warnings:        <sensitive data or file-check warnings, or none>
 ```
 
 Test questions are 3 to 5 distinct questions (check the limits in the guide) that the document should answer, worded as a real customer or staff member would ask them. Minatzig uses them to check retrieval after upload. Propose them yourself and let the person edit them.

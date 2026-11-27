@@ -1,0 +1,6 @@
+{
+  "name": "minatzig-docs",
+  "version": "0.1.0",
+  "description": "Write, split by audience and upload knowledge-base documentation to Minatzig through the Minatzig MCP.",
+  "author": { "name": "Minatzig" }
+}

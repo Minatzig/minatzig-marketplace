@@ -1,0 +1,12 @@
+{
+  "name": "minatzig",
+  "description": "Minatzig plugins for clients",
+  "owner": { "name": "Minatzig" },
+  "plugins": [
+    {
+      "name": "minatzig-docs",
+      "source": "./plugins/minatzig-docs",
+      "description": "Write, split by audience and upload knowledge-base documentation to Minatzig."
+    }
+  ]
+}
